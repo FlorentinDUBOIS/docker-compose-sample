@@ -157,20 +157,13 @@ services:
         expose:
             - "80"
 
-    oil:
-        container_name: oil
-        image: florentindubois/oil-api
-        restart: always
-
-        expose:
-            - "80"
-
     caddy:
         container_name: caddy
         image: florentindubois/caddy:latest
 
         volumes:
             - /srv/caddy:/root/.caddy
+            - /srv:/srv/files
 
         links:
             - owncloud
@@ -180,7 +173,6 @@ services:
             - deluge
             - rainloop
             - kraken
-            - oil
 
         depends_on:
             - owncloud
@@ -189,7 +181,6 @@ services:
             - couchpotato
             - deluge
             - kraken
-            - oil
 
         ports:
             - "80:80"
