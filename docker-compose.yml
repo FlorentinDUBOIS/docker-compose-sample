@@ -160,6 +160,7 @@ services:
     caddy:
         container_name: caddy
         image: florentindubois/caddy:latest
+        restart: always
 
         volumes:
             - /srv/caddy:/root/.caddy
