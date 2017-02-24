@@ -146,17 +146,6 @@ services:
         depends_on:
             - deluge
 
-    rainloop:
-        container_name: rainloop
-        image: florentindubois/rainloop:latest
-        restart: always
-
-        volumes:
-            - /srv/rainloop/data:/var/www/html/data
-
-        expose:
-            - "80"
-
     caddy:
         container_name: caddy
         image: florentindubois/caddy:latest
@@ -164,7 +153,6 @@ services:
 
         volumes:
             - /srv/caddy:/root/.caddy
-            - /srv:/srv/files
 
         links:
             - owncloud
@@ -172,7 +160,6 @@ services:
             - sickrage
             - couchpotato
             - deluge
-            - rainloop
             - kraken
 
         depends_on:
