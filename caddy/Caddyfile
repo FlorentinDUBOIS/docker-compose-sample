@@ -1,0 +1,43 @@
+florentin-dubois.fr, www.florentin-dubois.fr {
+  tls server@florentin-dubois.fr
+
+  root /srv/http/portfolio
+  log / stdout "{common}"
+  gzip
+
+  git github.com/FlorentinDUBOIS/portfolio /srv/http/portfolio {
+    branch v7
+  }
+}
+
+blog.florentin-dubois.fr, www.blog.florentin-dubois.fr {
+  tls server@florentin-dubois.fr
+
+  proxy / ghost:2368
+  log / stdout "{common}"
+  gzip
+}
+
+owncloud.dubois.ovh {
+  tls server@florentin-dubois.fr
+
+  proxy / owncloud
+  log / stdout "{common}"
+  gzip
+}
+
+deluge.dubois.ovh {
+  tls server@florentin-dubois.fr
+
+  proxy / deluge:8112
+  log / stdout "{common}"
+  gzip
+}
+
+sickrage.dubois.ovh {
+  tls server@florentin-dubois.fr
+
+  proxy / sickrage:8081
+  log / stdout "{common}"
+  gzip
+}

@@ -1,175 +1,116 @@
-version: '2'
+version: '3'
 
 services:
-    portfolio:
-        container_name: portfolio
-        image: florentindubois/portfolio:latest
-        restart: always
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
 
-        environment:
-            - NODE_ENV=production
+    environment:
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
 
-        expose:
-            - "80"
+    volumes:
+      - /srv/postgres:/var/lib/postgresql/data
 
-    mariadb:
-        container_name: mariadb
-        image: mariadb:latest
-        restart: always
+    expose:
+      - '5432'
 
-        environment:
-            - MYSQL_ROOT_PASSWORD=
+  owncloud:
+    container_name: owncloud
+    image: owncloud:latest
+    restart: always
 
-        expose:
-            - "3306"
+    volumes:
+      - /srv/owncloud/config:/var/www/html/config
+      - /srv/owncloud/data:/var/www/html/data
 
-        volumes:
-            - /srv/mariadb:/var/lib/mysql
+    links:
+      - postgres:postgres
 
-    mongodb:
-        container_name: mongodb
-        image: mongo:latest
-        restart: always
+    expose:
+      - '80'
 
-        expose:
-            - "27017"
+    depends_on:
+      - postgres
 
-        volumes:
-            - /srv/mongodb:/data/db
+  ghost:
+    container_name: ghost
+    image: ghost:latest
+    restart: always
 
-    kraken:
-        container_name: kraken
-        image: florentindubois/kraken:stable
-        restart: always
+    volumes:
+      - /srv/ghost:/var/lib/ghost
 
-        environment:
-            - MONGODB_HOST=mongodb
-            - MONGODB_PORT=27017
-            - MONGODB_BASE=kraken
-            - NODE_ENV=production
+    expose:
+      - '2368'
 
-        volumes:
-            - /srv:/usr/src/app/mount
+  deluge:
+    container_name: deluge
+    image: linuxserver/deluge:latest
+    restart: always
 
-        expose:
-            - "80"
+    environment:
+        - PUID=0
+        - PGID=0
 
-        links:
-            - mongodb
+    volumes:
+        - /srv/deluge/downloads:/downloads
+        - /srv/deluge/config:/config
+        - /etc/localtime:/etc/localtime:ro
 
-        depends_on:
-            - mongodb
+    expose:
+        - "8112"
+        - "58846"
 
-    owncloud:
-        container_name: owncloud
-        image: owncloud:latest
-        restart: always
+    ports:
+        - "7000-7009:7000-7009"
 
-        expose:
-            - "80"
+sickrage:
+    container_name: sickrage
+    image: linuxserver/sickrage:latest
+    restart: always
 
-        volumes:
-            - /srv/owncloud:/var/www/html
+    expose:
+        - "8081"
 
-        links:
-            - mariadb
+    volumes:
+        - /srv/sickrage/media:/tv
+        - /srv/sickrage/data:/downloads
+        - /srv/sickrage/config:/config
+        - /etc/localtime:/etc/localtime:ro
 
-        depends_on:
-            - mariadb
+    environment:
+        - TZ=Europe/Paris
+        - PUID=0
+        - GUID=0
 
-    deluge:
-        container_name: deluge
-        image: linuxserver/deluge:latest
-        restart: always
+    links:
+        - deluge
 
-        environment:
-            - PUID=0
-            - PGID=0
+    depends_on:
+        - deluge
 
-        volumes:
-            - /srv/deluge/downloads:/downloads
-            - /srv/deluge/config:/config
-            - /etc/localtime:/etc/localtime:ro
+  caddy:
+    container_name: caddy
+    image: florentindubois/infrastructure:caddy
+    restart: always
 
-        expose:
-            - "8112"
-            - "58846"
+    volumes:
+      - /srv/caddy:/root/.caddy
 
-        ports:
-            - "7000-7009:7000-7009"
+    ports:
+      - '80:80'
+      - '443:443'
 
-    sickrage:
-        container_name: sickrage
-        image: binhex/arch-sickrage:latest
-        restart: always
+    links:
+      - owncloud
+      - ghost
+      - deluge
+      - sickrage
 
-        expose:
-            - "8081"
-
-        volumes:
-            - /srv/sickrage/media:/media
-            - /srv/sickrage/data:/data
-            - /srv/sickrage/config:/config
-            - /etc/localtime:/etc/localtime:ro
-
-        environment:
-            - PUID=0
-            - GUID=0
-
-        links:
-            - deluge
-
-        depends_on:
-            - deluge
-
-    couchpotato:
-        container_name: couchpotato
-        image: linuxserver/couchpotato:latest
-        restart: always
-
-        environment:
-            - PGID=0
-            - PUID=0
-
-        volumes:
-            - /srv/couchpotato/config:/config
-            - /srv/couchpotato/downloads:/downloads
-            - /srv/couchpotato/movies:/movies
-            - /etc/localtime:/etc/localtime:ro
-
-        expose:
-            - "5050"
-
-        links:
-            - deluge
-
-        depends_on:
-            - deluge
-
-    caddy:
-        container_name: caddy
-        image: florentindubois/caddy:latest
-        restart: always
-
-        volumes:
-            - /srv/caddy:/root/.caddy
-
-        links:
-            - owncloud
-            - portfolio
-            - sickrage
-            - couchpotato
-            - deluge
-            - kraken
-
-        depends_on:
-            - owncloud
-            - portfolio
-            - sickrage
-            - couchpotato
-            - deluge
-            - kraken
-
-        ports:
-            - "80:80"
-            - "443:443"
+    depends_on:
+      - owncloud
+      - ghost
+      - deluge
+      - sickrage
