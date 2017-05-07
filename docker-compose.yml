@@ -40,9 +40,6 @@ services:
     image: florentindubois/infrastructure:ghost
     restart: always
 
-    volumes:
-      - /srv/ghost:/var/lib/ghost
-
     environment:
       - NODE_ENV=production
 
