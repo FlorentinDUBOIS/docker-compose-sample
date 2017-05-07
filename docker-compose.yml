@@ -28,22 +28,32 @@ services:
     links:
       - postgres:postgres
 
-    expose:
-      - '80'
-
     depends_on:
       - postgres
 
+    expose:
+      - '80'
+
   ghost:
+    build: ./ghost
     container_name: ghost
-    image: ghost:latest
+    image: florentindubois/infrastructure:ghost
     restart: always
 
     volumes:
       - /srv/ghost:/var/lib/ghost
 
+    environment:
+      - NODE_ENV=production
+
     expose:
       - '2368'
+
+    links:
+      - postgres:postgres
+
+    depends_on:
+      - postgres
 
   deluge:
     container_name: deluge
@@ -92,6 +102,7 @@ services:
         - deluge
 
   caddy:
+    build: ./caddy
     container_name: caddy
     image: florentindubois/infrastructure:caddy
     restart: always
