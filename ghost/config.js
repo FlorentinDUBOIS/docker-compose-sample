@@ -13,7 +13,7 @@ config = {
     production: {
         url: 'http://blog.florentin-dubois.fr',
         mail: {},
-       database: {
+        database: {
             client: 'pg',
             connection: {
                 host     : 'postgres',
@@ -27,6 +27,10 @@ config = {
         server: {
             host: '0.0.0.0',
             port: '2368'
+        },
+
+        paths: {
+            contentPath: path.join(process.env.GHOST_CONTENT, '/')
         }
     },
 
@@ -34,7 +38,7 @@ config = {
     development: {
         // The url to use when providing links to the site, E.g. in RSS and email.
         // Change this to your Ghost blog's published URL.
-        url: 'https://blog.florentin-dubois.fr',
+        url: 'localhost:2368',
 
         // Example refferer policy
         // Visit https://www.w3.org/TR/referrer-policy/ for instructions
