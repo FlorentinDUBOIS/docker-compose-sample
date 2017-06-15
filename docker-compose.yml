@@ -98,6 +98,41 @@ services:
     depends_on:
         - deluge
 
+  warp10:
+    container_name: warp10
+    image: warp10io/warp10:1.0.7
+    restart: always
+
+    volumes:
+      - /srv/warp10:/data
+
+    expose:
+      - "8080"
+      - "8081"
+
+  noderig:
+    build: ./noderig
+    container_name: noderig
+    image: runabove/noderig:latest
+    restart: always
+
+    expose:
+      - "9100"
+
+  beamium:
+    build: ./beamium
+    container_name: beamium
+    image: runabove/beamium:latest
+    restart: always
+
+    links:
+      - noderig
+      - warp10
+
+    depends_on:
+      - noderig
+      - warp10
+
   caddy:
     build: ./caddy
     container_name: caddy
@@ -116,9 +151,11 @@ services:
       - ghost
       - deluge
       - sickrage
+      - warp10
 
     depends_on:
       - owncloud
       - ghost
       - deluge
       - sickrage
+      - warp10

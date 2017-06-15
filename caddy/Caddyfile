@@ -41,3 +41,19 @@ sickrage.dubois.ovh {
   log / stdout "{common}"
   gzip
 }
+
+warp10.dubois.ovh {
+  tls server@florentin-dubois.fr
+
+  proxy / warp10:8080
+  log / stdout "{common}"
+  gzip
+}
+
+quantum.warp10.dubois.ovh {
+  tls server@florentin-dubois.fr
+
+  proxy / warp10:8081
+  log / stdout "{common}"
+  gzip
+}

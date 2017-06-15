@@ -1,0 +1,13 @@
+sources:
+  noderig:
+    url: http://noderig:9100/metrics
+    period: 1000
+    format: sensision
+
+sinks:
+  warp10:
+    url: http://warp10:8080/api/v0/update
+    token:
+
+labels:
+  host: dubois.ovh
