@@ -102,6 +102,7 @@ services:
     container_name: warp10
     image: warp10io/warp10:1.0.7
     restart: always
+    stdin_open: true
 
     volumes:
       - /srv/warp10:/data
