@@ -5,6 +5,6 @@ RUN mkdir -p /opt/beamium
 WORKDIR /opt/beamium
 
 RUN git clone https://github.com/runabove/beamium . && cargo build --release
-COPY config.yml config.yml
+COPY config.yaml config.yaml
 
 CMD ["cargo", "run", "--release"]
