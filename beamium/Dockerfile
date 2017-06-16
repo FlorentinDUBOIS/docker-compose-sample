@@ -7,4 +7,4 @@ WORKDIR /opt/beamium
 RUN git clone https://github.com/runabove/beamium . && cargo build --release
 COPY config.yml /etc/beamium/config.yml
 
-CMD ["cargo", "run", "--release"]
+CMD ["cargo", "run", "--release", "-c", "/etc/beamium/config.yml"]
