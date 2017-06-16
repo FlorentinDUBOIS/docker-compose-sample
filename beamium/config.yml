@@ -9,5 +9,9 @@ sinks:
     url: http://warp10:8080/api/v0/update
     token:
 
+parameters:
+  log-file: /var/log/beamium.log
+  log-level: 6
+
 labels:
   host: dubois.ovh
