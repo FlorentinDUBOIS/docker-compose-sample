@@ -1,7 +1,6 @@
 FROM alpine
 
-RUN apk add --update rust git openssl openssl-dev cargo tzdata
-RUN ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+RUN apk add --update rust git openssl openssl-dev cargo
 RUN mkdir -p /opt/beamium
 WORKDIR /opt/beamium
 

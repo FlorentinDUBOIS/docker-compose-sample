@@ -116,6 +116,10 @@ services:
     container_name: noderig
     image: runabove/noderig:latest
     restart: always
+    network_mode: host
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
 
     expose:
       - "9100"
@@ -125,6 +129,9 @@ services:
     container_name: beamium
     image: runabove/beamium:latest
     restart: always
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
 
     links:
       - noderig
