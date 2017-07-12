@@ -121,7 +121,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
 
-    port:
+    ports:
       - "9100"
 
   beamium:
