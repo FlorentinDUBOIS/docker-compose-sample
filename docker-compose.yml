@@ -121,7 +121,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
 
-    expose:
+    port:
       - "9100"
 
   beamium:
@@ -129,13 +129,10 @@ services:
     container_name: beamium
     image: runabove/beamium:latest
     restart: always
+    network_mode: host
 
     volumes:
       - /etc/localtime:/etc/localtime:ro
-
-    links:
-      - noderig
-      - warp10
 
     depends_on:
       - noderig

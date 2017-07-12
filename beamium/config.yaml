@@ -1,12 +1,12 @@
 sources:
   noderig:
-    url: http://noderig:9100/metrics
-    period: 1000
+    url: http://noderig.dubois.ovh:9100/metrics
+    period: 10000
     format: sensision
 
 sinks:
   warp10:
-    url: http://warp10:8080/api/v0/update
+    url: https://warp10.dubois.ovh/api/v0/update
     token:
 
 parameters:
