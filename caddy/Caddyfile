@@ -6,7 +6,7 @@ florentin-dubois.fr, www.florentin-dubois.fr {
   gzip
 
   git github.com/FlorentinDUBOIS/portfolio /srv/http/portfolio {
-    branch v7
+    branch v5
   }
 }
 
