@@ -26,6 +26,14 @@ owncloud.dubois.ovh {
   gzip
 }
 
+nextcloud.dubois.ovh {
+  tls server@florentin-dubois.fr
+
+  proxy / nextcloud
+  log / stdout "{common}"
+  gzip
+}
+
 deluge.dubois.ovh {
   tls server@florentin-dubois.fr
 

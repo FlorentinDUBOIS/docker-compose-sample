@@ -34,6 +34,25 @@ services:
     expose:
       - '80'
 
+  nextcloud:
+    container_name: nextcloud
+    image: nextcloud:latest
+    restart: always
+
+    volumes:
+      - /srv/nextcloud/config:/var/www/html/config
+      - /srv/nextcloud/data:/var/www/html/data
+      - /srv/nextcloud/themes:/var/www/html/themes
+
+    links:
+      - postgres:postgres
+
+    depends_on:
+      - postgres
+
+    expose:
+      - '80'
+
   ghost:
     build: ./ghost
     container_name: ghost
