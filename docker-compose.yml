@@ -42,7 +42,6 @@ services:
     volumes:
       - /srv/nextcloud/config:/var/www/html/config
       - /srv/nextcloud/data:/var/www/html/data
-      - /srv/nextcloud/themes:/var/www/html/themes
 
     links:
       - postgres:postgres
